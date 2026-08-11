@@ -4,6 +4,7 @@ import { WalletService } from './wallet.service';
 interface PlaceBetDto {
   userId: string;
   amount: string;
+  idempotencyKey: string;
 }
 
 @Controller('wallet')
@@ -15,6 +16,7 @@ export class WalletController {
     const result = await this.walletService.placeBet(
       dto.userId,
       BigInt(dto.amount),
+      dto.idempotencyKey,
     );
     return { balance: result.balance.toString() };
   }

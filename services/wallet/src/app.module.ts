@@ -1,25 +1,27 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RedisLockService } from './redis-lock.service';
-import { Wallet } from './wallet.entity';
-import { WalletController } from './wallet.controller';
-import { WalletService } from './wallet.service';
+import { WalletTransaction } from './wallet/wallet-transaction.entity';
+import { Wallet } from './wallet/wallet.entity';
+import { WalletModule } from './wallet/wallet.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: `.env.${process.env.NODE_ENV ?? 'development'}`,
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST ?? 'localhost',
-      port: Number(process.env.DB_PORT ?? 5432),
-      username: process.env.DB_USER ?? 'casino_dev',
-      password: process.env.DB_PASSWORD ?? 'dev_password',
-      database: process.env.DB_NAME ?? 'casino_wallet_dev',
-      entities: [Wallet],
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: [Wallet, WalletTransaction],
       synchronize: false,
     }),
-    TypeOrmModule.forFeature([Wallet]),
+    WalletModule,
   ],
-  controllers: [WalletController],
-  providers: [WalletService, RedisLockService],
 })
 export class AppModule {}

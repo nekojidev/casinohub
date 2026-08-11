@@ -7,6 +7,12 @@ interface LockResult {
   release: () => Promise<void>;
 }
 
+interface AcquireOptions {
+  ttlMs?: number;
+  retryDelayMs?: number;
+  maxWaitMs?: number;
+}
+
 @Injectable()
 export class RedisLockService implements OnModuleDestroy {
   private readonly redis = new Redis(
@@ -19,10 +25,9 @@ export class RedisLockService implements OnModuleDestroy {
 
   async acquire(
     userId: string,
-    ttlMs = 5000,
-    retryDelayMs = 5,
-    maxWaitMs = 2000,
+    options: AcquireOptions = {},
   ): Promise<LockResult> {
+    const { ttlMs = 5000, retryDelayMs = 5, maxWaitMs = 2000 } = options;
     const lockKey = `lock:wallet:${userId}`;
     const lockValue = randomUUID(); // proves ownership so we never release someone else's lock
 
