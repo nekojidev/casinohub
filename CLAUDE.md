@@ -62,13 +62,13 @@ casinohub/
 
 ## Прогресс (обновляй сам)
 
-- [ ] TS generics/decorators
-- [ ] NestJS DI
-- [ ] TypeORM entity + миграции
-- [ ] Redis lock
-- [ ] Postgres optimistic lock
-- [ ] Идемпотентность
-- [ ] Concurrency-тесты
+- [x] TS generics/decorators
+- [x] NestJS DI
+- [x] TypeORM entity + миграции
+- [x] Redis lock
+- [x] Postgres optimistic lock
+- [x] Идемпотентность
+- [x] Concurrency-тесты
 - [ ] Provably fair RNG
 - [ ] RabbitMQ producer/consumer
 - [ ] Outbox pattern

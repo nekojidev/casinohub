@@ -9,9 +9,7 @@ build
 
 # env files (never commit real secrets)
 .env
-.env.*.local
-.env.development
-.env.production
+.env.*
 !.env.*.example
 
 # tests / coverage
